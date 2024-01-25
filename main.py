@@ -15,7 +15,8 @@ def game_board():
     current_person = ""
     score = 0
     is_playing = True
-
+    excluded_numbers = []
+    
     while is_playing:
         if score == 0:
             random_number_A = generate_random_number()
@@ -26,6 +27,10 @@ def game_board():
             random_number_A = generate_random_number()
             random_number_B = generate_random_number()
             person_A = current_person
+
+            while random_number_B in excluded_numbers:
+                random_number_B = generate_random_number()
+
             person_B = data[random_number_B]
 
         if person_A["follower_count"] > person_B["follower_count"]:
@@ -45,6 +50,7 @@ def game_board():
 
         if answer == has_More_followers:
             score += 1
+            excluded_numbers.append(random_number_A)
             print(f"Correct Your score is: {score}\n")
         else:
             score = 0
