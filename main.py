@@ -10,29 +10,46 @@ def generate_random_number():
 
 
 def game_board():
-    random_number_A = generate_random_number()
-    random_number_B = generate_random_number()
-    person_A = data[random_number_A]
-    person_B = data[random_number_B]
+
     has_More_followers = ""
+    current_person = ""
+    score = 0
+    is_playing = True
 
-    if person_A["follower_count"] > person_B["follower_count"]:
-        has_More_followers = "A"
-    else:
-        has_More_followers = "B"
+    while is_playing:
+        if score == 0:
+            random_number_A = generate_random_number()
+            random_number_B = generate_random_number()
+            person_A = data[random_number_A]
+            person_B = data[random_number_B]
+        elif score > 0:
+            random_number_A = generate_random_number()
+            random_number_B = generate_random_number()
+            person_A = current_person
+            person_B = data[random_number_B]
 
-    print(
-        f'Compare A: {data[random_number_A]["name"]}, a {data[random_number_A]["description"]}, from {data[random_number_A]["country"]}\n\n')
-    print("VS.\n\n")
-    print(
-        f'Compare B: {data[random_number_B]["name"]}, a {data[random_number_B]["description"]}, from {data[random_number_B]["country"]}\n')
+        if person_A["follower_count"] > person_B["follower_count"]:
+            has_More_followers = "A"
+            current_person = person_A
+        else:
+            has_More_followers = "B"
+            current_person = person_B
 
-    answer = input("Who has more followers? Type A or B:  ")
+        print(
+            f'Compare A: {person_A["name"]}, a {person_A["description"]}, from {person_A["country"]}\n\n')
+        print("VS.\n\n")
+        print(
+            f'Compare B: {person_B["name"]}, a {person_B["description"]}, from {person_B["country"]}\n')
 
-    if answer == has_More_followers:
-        print("Correct")
-    else:
-        print("Naahh, not this time.")
+        answer = input("Who has more followers? Type A or B:  ")
+
+        if answer == has_More_followers:
+            score += 1
+            print(f"Correct Your score is: {score}\n")
+        else:
+            score = 0
+            is_playing = False
+            return print("Naahh, not this time.")
 
 
 if start == "start":
